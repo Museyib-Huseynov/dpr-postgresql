@@ -175,3 +175,56 @@ CROSS JOIN LATERAL (
       ), 0)
     END AS water_ton_calc
 ) AS calc;
+
+
+-----------------
+CREATE OR REPLACE VIEW odlar_bi_daily AS
+WITH day_generator AS (
+    SELECT generate_series(1, 31) AS day_num
+),
+days_in_month AS (
+    SELECT 
+        mr.id AS monthly_id,
+        mr.report_date_id,
+        rd.report_date,
+        mr.field_id,
+        f.name AS field_name,
+        o.id AS ogpd_id,
+        o.name AS ogpd_name,
+        mr.monthlyoilproduction,
+        mr.monthlywaterproduction_neft,
+        mr.monthlywaterproduction_qaz,
+        mr.monthlygasproduction,
+        mr.freegas,
+        mr.condensate,
+        mr.monthlywaterinjection,
+        mr.well_count_neft,
+        mr.well_count_qaz,
+        mr.well_count_vurucu,
+        date_trunc('month', rd.report_date - INTERVAL '1 month') + INTERVAL '1 month - 1 day' AS month_end,
+        EXTRACT(DAY FROM date_trunc('month', rd.report_date - INTERVAL '1 month') + INTERVAL '1 month - 1 day') AS days
+    FROM monthly_reported mr
+    JOIN report_dates rd ON mr.report_date_id = rd.id
+    JOIN fields f ON f.id = mr.field_id
+    JOIN ogpd o ON o.id = f.ogpd_id
+    WHERE rd.report_date > DATE '2025-01-01'
+)
+SELECT 
+    dm.monthly_id,
+    dm.report_date_id,
+    dm.report_date,
+    (dm.report_date - (dg.day_num || ' days')::interval)::date AS daily_date,
+    dm.field_id,
+    dm.field_name,
+    dm.ogpd_id,
+    dm.ogpd_name,
+    (dm.monthlyoilproduction::float / dm.days) AS dailyoilproduction,
+    ((dm.monthlywaterproduction_neft + dm.monthlywaterproduction_qaz)::float / dm.days) AS dailywaterproduction,
+    ((dm.monthlygasproduction + dm.freegas)::float / dm.days) AS dailygasproduction,
+    dm.condensate,
+    dm.monthlywaterinjection,
+    dm.well_count_neft,
+    dm.well_count_qaz,
+    dm.well_count_vurucu
+FROM days_in_month dm
+JOIN day_generator dg ON dg.day_num <= dm.days;
