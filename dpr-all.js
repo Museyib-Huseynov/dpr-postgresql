@@ -117,6 +117,8 @@ try {
 
   client = await pool.connect();
 
+  await client.query('SET search_path To dpr');
+
   const { rows: fields } = await client.query('SELECT * FROM fields');
 
   const { rows: platforms } = await client.query('SELECT * FROM platforms');
@@ -375,19 +377,21 @@ try {
             ) {
               logger.log(`Check flowmeter parameters`, error, false, true);
               logger.log(`Not populated!`, warning);
-            } else if (
-              flowmeters_previous_entry_is_yesterday &&
-              [8, 13].includes(platform) &&
-              (flowmeters_previous_entry_reading2 != reading1 ||
-                flowmeters_previous_entry_reading4 != reading3)
-            ) {
-              logger.log(
-                `Yesterday's flowmeter reading should be same with yesterday's, but different!`,
-                error,
-                false,
-                true
-              );
-            } else if (!Number(flowmeters_entry_exists)) {
+            }
+            // else if (
+            //   flowmeters_previous_entry_is_yesterday &&
+            //   [8, 13].includes(platform) &&
+            //   (flowmeters_previous_entry_reading2 != reading1 ||
+            //     flowmeters_previous_entry_reading4 != reading3)
+            // ) {
+            //   logger.log(
+            //     `Yesterday's flowmeter reading should be same with yesterday's, but different!`,
+            //     error,
+            //     false,
+            //     true
+            //   );
+            // }
+            else if (!Number(flowmeters_entry_exists)) {
               await client.query(flowmeters_insert_query, [
                 platform_id,
                 report_date_id,
@@ -607,13 +611,16 @@ try {
             }
             //
 
-            const liquid_ton = +String(row[20]).replace(/,/g, '.');
-            const oil_ton = +String(row[21]).replace(/,/g, '.');
-            const water_ton = +String(row[22]).replace(/,/g, '.');
-            const total_gas = +String(row[24]).replace(/,/g, '.');
-            const gaslift_gas_wt = +String(row[25]).replace(/,/g, '.');
-            const water_cut = +String(row[27]).replace(/,/g, '.');
-            const mechanical_impurities = +String(row[28]).replace(/,/g, '.');
+            const liquid_ton = Number(String(row[20]).replace(/,/g, '.'));
+            const oil_ton = Number(String(row[21]).replace(/,/g, '.'));
+            const water_ton = Number(String(row[22]).replace(/,/g, '.'));
+            const total_gas = Number(String(row[24]).replace(/,/g, '.'));
+            const gaslift_gas_wt = Number(String(row[25]).replace(/,/g, '.'));
+
+            const water_cut = Number(String(row[27]).replace(/,/g, '.'));
+            const mechanical_impurities = Number(
+              String(row[28]).replace(/,/g, '.')
+            );
             const pqa = missing_data.includes(row[29])
               ? null
               : String(row[29]).replace(/,/g, '.');
@@ -637,31 +644,31 @@ try {
               : String(row[35]).replace(/,/g, '.');
             const gaslift_gas_day = missing_data.includes(row[36])
               ? null
-              : +String(row[36]).replace(/,/g, '.');
+              : Number(String(row[36]).replace(/,/g, '.'));
             const gaslift_system_pressure = missing_data.includes(row[37])
               ? null
               : row[37];
             const pump_depth = missing_data.includes(row[38])
               ? null
-              : +String(row[38]).replace(/,/g, '.');
+              : Number(String(row[38]).replace(/,/g, '.'));
             const pump_frequency = missing_data.includes(row[39])
               ? null
-              : +String(row[39]).replace(/,/g, '.');
+              : Number(String(row[39]).replace(/,/g, '.'));
             const pump_hydrostatic_pressure = missing_data.includes(row[40])
               ? null
-              : +String(row[40]).replace(/,/g, '.');
+              : Number(String(row[40]).replace(/,/g, '.'));
             const esp_pump_size = missing_data.includes(row[41])
               ? null
-              : +String(row[41]).replace(/,/g, '.');
+              : Number(String(row[41]).replace(/,/g, '.'));
             const esp_pump_stages = missing_data.includes(row[42])
               ? null
-              : +String(row[42]).replace(/,/g, '.');
+              : Number(String(row[42]).replace(/,/g, '.'));
             const esp_pump_rate = missing_data.includes(row[43])
               ? null
-              : +String(row[43]).replace(/,/g, '.');
+              : Number(String(row[43]).replace(/,/g, '.'));
             const esp_pump_head = missing_data.includes(row[44])
               ? null
-              : +String(row[44]).replace(/,/g, '.');
+              : Number(String(row[44]).replace(/,/g, '.'));
             const esp_downhole_gas_separator = missing_data.includes(row[45])
               ? null
               : row[45];
@@ -670,43 +677,43 @@ try {
               : row[46];
             const srp_pump_plunger_diameter = missing_data.includes(row[47])
               ? null
-              : +String(row[47]).replace(/,/g, '.');
+              : Number(String(row[47]).replace(/,/g, '.'));
             const srp_plunger_stroke_length = missing_data.includes(row[48])
               ? null
-              : +String(row[48]).replace(/,/g, '.');
+              : Number(String(row[48]).replace(/,/g, '.'));
             const srp_balancer_oscillation_frequency = missing_data.includes(
               row[49]
             )
               ? null
-              : +String(row[49]).replace(/,/g, '.');
+              : Number(String(row[49]).replace(/,/g, '.'));
             const srp_pump_rate_coefficient = missing_data.includes(row[50])
               ? null
-              : +String(row[50]).replace(/,/g, '.');
+              : Number(String(row[50]).replace(/,/g, '.'));
             const srp_max_motor_speed = missing_data.includes(row[51])
               ? null
-              : +String(row[51]).replace(/,/g, '.');
+              : Number(String(row[51]).replace(/,/g, '.'));
             const srp_shaft_diameter = missing_data.includes(row[52])
               ? null
-              : +String(row[52]).replace(/,/g, '.');
+              : Number(String(row[52]).replace(/,/g, '.'));
             const pcp_pump_rate = missing_data.includes(row[53])
               ? null
-              : +String(row[53]).replace(/,/g, '.');
+              : Number(String(row[53]).replace(/,/g, '.'));
             const pcp_rpm = missing_data.includes(row[54])
               ? null
-              : +String(row[54]).replace(/,/g, '.');
+              : Number(String(row[54]).replace(/,/g, '.'));
             const pcp_screw_diameter = missing_data.includes(row[55])
               ? null
-              : +String(row[55]).replace(/,/g, '.');
+              : Number(String(row[55]).replace(/,/g, '.'));
             const static_fluid_level = missing_data.includes(row[56])
               ? null
-              : +String(row[56]).replace(/,/g, '.');
+              : Number(String(row[56]).replace(/,/g, '.'));
             const dynamic_fluid_level = missing_data.includes(row[57])
               ? null
-              : +String(row[57]).replace(/,/g, '.');
+              : Number(String(row[57]).replace(/,/g, '.'));
 
             const well_uptime_hours = missing_data.includes(row[58])
               ? null
-              : +String(row[58]).replace(/,/g, '.');
+              : Number(String(row[58]).replace(/,/g, '.'));
             const downtime_category = row[59];
             const production_sub_skins_activity_id =
               production_sub_skins_activities.find(
