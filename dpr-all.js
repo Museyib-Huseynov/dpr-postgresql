@@ -611,141 +611,258 @@ try {
             }
             //
 
-            const liquid_ton = !row[20]
-              ? null
-              : Number(String(row[20]).replace(/,/g, '.'));
-            const oil_ton = !row[21]
-              ? null
-              : Number(String(row[21]).replace(/,/g, '.'));
-            const water_ton = !row[22]
-              ? null
-              : Number(String(row[22]).replace(/,/g, '.'));
-            const total_gas = !row[24]
-              ? null
-              : Number(String(row[24]).replace(/,/g, '.'));
-            const gaslift_gas_wt = !row[25]
-              ? null
-              : Number(String(row[25]).replace(/,/g, '.'));
+            const liquid_ton =
+              row[20] == null ||
+              row[20] === '' ||
+              isNaN(Number(String(row[20]).replace(/,/g, '.')))
+                ? null
+                : Number(String(row[20]).replace(/,/g, '.'));
+            const oil_ton =
+              row[21] == null ||
+              row[21] === '' ||
+              isNaN(Number(String(row[21]).replace(/,/g, '.')))
+                ? null
+                : Number(String(row[21]).replace(/,/g, '.'));
+            const water_ton =
+              row[22] == null ||
+              row[22] === '' ||
+              isNaN(Number(String(row[22]).replace(/,/g, '.')))
+                ? null
+                : Number(String(row[22]).replace(/,/g, '.'));
+            const total_gas =
+              row[24] == null ||
+              row[24] === '' ||
+              isNaN(Number(String(row[24]).replace(/,/g, '.')))
+                ? null
+                : Number(String(row[24]).replace(/,/g, '.'));
+            const gaslift_gas_wt =
+              row[25] == null ||
+              row[25] === '' ||
+              isNaN(Number(String(row[25]).replace(/,/g, '.')))
+                ? null
+                : Number(String(row[25]).replace(/,/g, '.'));
 
-            const water_cut = !row[27]
-              ? null
-              : Number(String(row[27]).replace(/,/g, '.'));
-            const mechanical_impurities = !row[28]
-              ? null
-              : Number(String(row[28]).replace(/,/g, '.'));
+            const water_cut =
+              row[27] == null ||
+              row[27] === '' ||
+              isNaN(Number(String(row[27]).replace(/,/g, '.')))
+                ? null
+                : Number(String(row[27]).replace(/,/g, '.'));
+            const mechanical_impurities =
+              row[28] == null ||
+              row[28] === '' ||
+              isNaN(Number(String(row[28]).replace(/,/g, '.')))
+                ? null
+                : Number(String(row[28]).replace(/,/g, '.'));
             const pqa =
-              missing_data.includes(row[29]) || !row[29]
+              missing_data.includes(row[29]) ||
+              row[29] == null ||
+              row[29] === '' ||
+              isNaN(Number(String(row[29]).replace(/,/g, '.')))
                 ? null
                 : String(row[29]).replace(/,/g, '.');
             const phf =
-              missing_data.includes(row[30]) || !row[30]
+              missing_data.includes(row[30]) ||
+              row[30] == null ||
+              row[30] === '' ||
+              isNaN(Number(String(row[30]).replace(/,/g, '.')))
                 ? null
                 : String(row[30]).replace(/,/g, '.');
             const pba =
-              missing_data.includes(row[31]) || !row[31]
+              missing_data.includes(row[31]) ||
+              row[31] == null ||
+              row[31] === '' ||
+              isNaN(Number(String(row[31]).replace(/,/g, '.')))
                 ? null
                 : String(row[31]).replace(/,/g, '.');
             const p6x9 =
-              missing_data.includes(row[32]) || !row[32]
+              missing_data.includes(row[32]) ||
+              row[32] == null ||
+              row[32] === '' ||
+              isNaN(Number(String(row[32]).replace(/,/g, '.')))
                 ? null
                 : String(row[32]).replace(/,/g, '.');
             const p9x13 =
-              missing_data.includes(row[33]) || !row[33]
+              missing_data.includes(row[33]) ||
+              row[33] == null ||
+              row[33] === '' ||
+              isNaN(Number(String(row[33]).replace(/,/g, '.')))
                 ? null
                 : String(row[33]).replace(/,/g, '.');
             const p13x20 =
-              missing_data.includes(row[34]) || !row[34]
+              missing_data.includes(row[34]) ||
+              row[34] == null ||
+              row[34] === '' ||
+              isNaN(Number(String(row[34]).replace(/,/g, '.')))
                 ? null
                 : String(row[34]).replace(/,/g, '.');
             const choke =
-              missing_data.includes(row[35]) || !row[35]
+              missing_data.includes(row[35]) ||
+              row[35] == null ||
+              row[35] === '' ||
+              isNaN(Number(String(row[35]).replace(/,/g, '.')))
                 ? null
                 : String(row[35]).replace(/,/g, '.');
             const gaslift_gas_day =
-              missing_data.includes(row[36]) || !row[36]
+              missing_data.includes(row[36]) ||
+              row[36] == null ||
+              row[36] === '' ||
+              isNaN(Number(String(row[36]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[36]).replace(/,/g, '.'));
             const gaslift_system_pressure =
-              missing_data.includes(row[37]) || !row[37] ? null : row[37];
+              missing_data.includes(row[37]) ||
+              row[37] == null ||
+              row[37] === '' ||
+              isNaN(Number(String(row[37]).replace(/,/g, '.')))
+                ? null
+                : row[37];
             const pump_depth =
-              missing_data.includes(row[38]) || !row[38]
+              missing_data.includes(row[38]) ||
+              row[38] == null ||
+              row[38] === '' ||
+              isNaN(Number(String(row[38]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[38]).replace(/,/g, '.'));
             const pump_frequency =
-              missing_data.includes(row[39]) || !row[39]
+              missing_data.includes(row[39]) ||
+              row[39] == null ||
+              row[39] === '' ||
+              isNaN(Number(String(row[39]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[39]).replace(/,/g, '.'));
             const pump_hydrostatic_pressure =
-              missing_data.includes(row[40]) || !row[40]
+              missing_data.includes(row[40]) ||
+              row[40] == null ||
+              row[40] === '' ||
+              isNaN(Number(String(row[40]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[40]).replace(/,/g, '.'));
             const esp_pump_size =
-              missing_data.includes(row[41]) || !row[41]
+              missing_data.includes(row[41]) ||
+              row[41] == null ||
+              row[41] === '' ||
+              isNaN(Number(String(row[41]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[41]).replace(/,/g, '.'));
             const esp_pump_stages =
-              missing_data.includes(row[42]) || !row[42]
+              missing_data.includes(row[42]) ||
+              row[42] == null ||
+              row[42] === '' ||
+              isNaN(Number(String(row[42]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[42]).replace(/,/g, '.'));
             const esp_pump_rate =
-              missing_data.includes(row[43]) || !row[43]
+              missing_data.includes(row[43]) ||
+              row[43] == null ||
+              row[43] === '' ||
+              isNaN(Number(String(row[43]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[43]).replace(/,/g, '.'));
             const esp_pump_head =
-              missing_data.includes(row[44]) || !row[44]
+              missing_data.includes(row[44]) ||
+              row[44] == null ||
+              row[44] === '' ||
+              isNaN(Number(String(row[44]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[44]).replace(/,/g, '.'));
             const esp_downhole_gas_separator =
-              missing_data.includes(row[45]) || !row[45] ? null : row[45];
+              missing_data.includes(row[45]) ||
+              row[45] == null ||
+              row[45] === '' ||
+              isNaN(Number(String(row[45]).replace(/,/g, '.')))
+                ? null
+                : row[45];
             const srp_pumpjack_type =
-              missing_data.includes(row[46]) || !row[46] ? null : row[46];
+              missing_data.includes(row[46]) ||
+              row[46] == null ||
+              row[46] === '' ||
+              isNaN(Number(String(row[46]).replace(/,/g, '.')))
+                ? null
+                : row[46];
             const srp_pump_plunger_diameter =
-              missing_data.includes(row[47]) || !row[47]
+              missing_data.includes(row[47]) ||
+              row[47] == null ||
+              row[47] === '' ||
+              isNaN(Number(String(row[47]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[47]).replace(/,/g, '.'));
             const srp_plunger_stroke_length =
-              missing_data.includes(row[48]) || !row[48]
+              missing_data.includes(row[48]) ||
+              row[48] == null ||
+              row[48] === '' ||
+              isNaN(Number(String(row[48]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[48]).replace(/,/g, '.'));
             const srp_balancer_oscillation_frequency =
-              missing_data.includes(row[49]) || !row[49]
+              missing_data.includes(row[49]) ||
+              row[49] == null ||
+              row[49] === '' ||
+              isNaN(Number(String(row[49]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[49]).replace(/,/g, '.'));
             const srp_pump_rate_coefficient =
-              missing_data.includes(row[50]) || !row[50]
+              missing_data.includes(row[50]) ||
+              row[50] == null ||
+              row[50] === '' ||
+              isNaN(Number(String(row[50]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[50]).replace(/,/g, '.'));
             const srp_max_motor_speed =
-              missing_data.includes(row[51]) || !row[51]
+              missing_data.includes(row[51]) ||
+              row[51] == null ||
+              row[51] === '' ||
+              isNaN(Number(String(row[51]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[51]).replace(/,/g, '.'));
             const srp_shaft_diameter =
-              missing_data.includes(row[52]) || !row[52]
+              missing_data.includes(row[52]) ||
+              row[52] == null ||
+              row[52] === '' ||
+              isNaN(Number(String(row[52]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[52]).replace(/,/g, '.'));
             const pcp_pump_rate =
-              missing_data.includes(row[53]) || !row[53]
+              missing_data.includes(row[53]) ||
+              row[53] == null ||
+              row[53] === '' ||
+              isNaN(Number(String(row[53]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[53]).replace(/,/g, '.'));
             const pcp_rpm =
-              missing_data.includes(row[54]) || !row[54]
+              missing_data.includes(row[54]) ||
+              row[54] == null ||
+              row[54] === '' ||
+              isNaN(Number(String(row[54]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[54]).replace(/,/g, '.'));
             const pcp_screw_diameter =
-              missing_data.includes(row[55]) || !row[55]
+              missing_data.includes(row[55]) ||
+              row[55] == null ||
+              row[55] === '' ||
+              isNaN(Number(String(row[55]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[55]).replace(/,/g, '.'));
             const static_fluid_level =
-              missing_data.includes(row[56]) || !row[56]
+              missing_data.includes(row[56]) ||
+              row[56] == null ||
+              row[56] === '' ||
+              isNaN(Number(String(row[56]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[56]).replace(/,/g, '.'));
             const dynamic_fluid_level =
-              missing_data.includes(row[57]) || !row[57]
+              missing_data.includes(row[57]) ||
+              row[57] == null ||
+              row[57] === '' ||
+              isNaN(Number(String(row[57]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[57]).replace(/,/g, '.'));
 
             const well_uptime_hours =
-              missing_data.includes(row[58]) || !row[58]
+              missing_data.includes(row[58]) ||
+              row[58] == null ||
+              row[58] === '' ||
+              isNaN(Number(String(row[58]).replace(/,/g, '.')))
                 ? null
                 : Number(String(row[58]).replace(/,/g, '.'));
             const downtime_category = row[59];
