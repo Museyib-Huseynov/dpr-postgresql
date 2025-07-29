@@ -589,6 +589,10 @@ try {
             let last_gas_well_test_date = row[23];
             let last_lab_date = row[26];
 
+            let last_well_test_date_id,
+              last_gas_well_test_date_id,
+              last_lab_date_id;
+
             // check if dates are in correct format
             if (
               !isValidDate(last_well_test_date) ||
@@ -608,6 +612,28 @@ try {
                 last_gas_well_test_date
               );
               last_lab_date = processDateValue(last_lab_date);
+
+              last_well_test_date_id = Number(
+                (
+                  await client.query(
+                    `SELECT id FROM report_dates WHERE report_date=${last_well_test_date}`
+                  )
+                ).rows[0].id
+              );
+              last_gas_well_test_date_id = Number(
+                (
+                  await client.query(
+                    `SELECT id FROM report_dates WHERE report_date=${last_gas_well_test_date}`
+                  )
+                ).rows[0].id
+              );
+              last_lab_date_id = Number(
+                (
+                  await client.query(
+                    `SELECT id FROM report_dates WHERE report_date=${last_lab_date}`
+                  )
+                ).rows[0].id
+              );
             }
             //
 
@@ -978,7 +1004,7 @@ try {
             //   const lab_result_exists_query =
             //     'SELECT COUNT(*) AS well_tests_count FROM well_tests WHERE well_id = $1 AND (well_test_date = $2 OR (($4::date - $3::date) BETWEEN 0 AND 1) OR $5 < $6)';
 
-            // const {rows: lab_result_exists_query_result} = await client.query(lab_result_exists_query, [well_id, last_lab_date, last_well_test_date, last_lab_date, last_lab_date, well_tests_first_entry_report_date])
+            // const {rows: lab_result_exists_query_result} = await client.query(lab_result_exists_query, [well_id, last_lab_date_id, last_well_test_date, last_lab_date, last_lab_date, well_tests_first_entry_report_date])
 
             //   const { well_tests_count } = lab_result_exists_query_result[0] || {};
 
@@ -1303,7 +1329,7 @@ try {
             const { rows: well_tests_entry_exists_query_result } =
               await client.query(well_tests_entry_exists_query, [
                 well_id,
-                last_well_test_date,
+                last_well_test_date_id,
               ]);
 
             const { well_tests_entry_exists } =
@@ -1318,7 +1344,7 @@ try {
               await client.query(well_tests_insert_query, [
                 well_id,
                 report_date_id,
-                last_well_test_date,
+                last_well_test_date_id,
                 liquid_ton,
                 oil_ton,
                 water_ton,
@@ -1339,7 +1365,7 @@ try {
             const { rows: gas_well_tests_entry_exists_query_result } =
               await client.query(gas_well_tests_entry_exists_query, [
                 well_id,
-                last_gas_well_test_date,
+                last_gas_well_test_date_id,
               ]);
 
             const { gas_well_tests_entry_exists } =
@@ -1354,7 +1380,9 @@ try {
               await client.query(gas_well_tests_insert_query, [
                 well_id,
                 report_date_id,
-                field_id == 1 ? last_well_test_date : last_gas_well_test_date,
+                field_id == 1
+                  ? last_well_test_date_id
+                  : last_gas_well_test_date_id,
                 total_gas,
                 gaslift_gas_wt,
               ]);
@@ -1374,7 +1402,7 @@ try {
             const { rows: laboratory_results_entry_exists_query_result } =
               await client.query(laboratory_results_entry_exists_query, [
                 well_id,
-                last_lab_date,
+                last_lab_date_id,
               ]);
 
             const { laboratory_results_entry_exists } =
@@ -1389,7 +1417,7 @@ try {
               await client.query(laboratory_results_insert_query, [
                 well_id,
                 report_date_id,
-                last_lab_date,
+                last_lab_date_id,
                 water_cut,
                 mechanical_impurities,
               ]);
